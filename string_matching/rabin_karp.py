@@ -7,7 +7,7 @@ def rabin_karp_single_hash(text, pattern):
     faux_positif = 0
     count = 0
     if m > n:
-        return ((-1, count), 0)
+        return (apparition, count), 0
     # Calculate the hash values of the pattern
     pattern_hashes = [0, 0, 0]
     for i in range(m):
@@ -32,11 +32,10 @@ def rabin_karp_single_hash(text, pattern):
             for index, c in enumerate(pattern):
                 count += 1
                 if c != text[i+index]:
+                    faux_positif += 1
                     break
-            if index == m - 1:
-                apparition.append(i)
             else:
-                faux_positif += 1
+                apparition.append(i)
         if i < n - m:
             for j in range(3):
                 text_hashes[j] = (d * (text_hashes[j] - ord(text[i]) * pow(d, m - 1, p)) + ord(text[i + m])) % p
@@ -84,11 +83,10 @@ def rabin_karp_multiple_hashes(text, patterns):
                 for index, c in enumerate(pattern):
                     count += 1
                     if c != text[i+index]:
+                        faux_positif += 1
                         break
-                if index == m - 1:
-                    apparition.append(i)
                 else:
-                    faux_positif += 1
+                    apparition.append(i)
             if i < n - m:
                 for j in range(3):
                     text_hashes[j] = (d * (text_hashes[j] - ord(text[i]) * pow(d, m - 1, p)) + ord(text[i + m])) % p
